@@ -43,10 +43,11 @@ install:
   - if exist ughub rmdir /S /Q ughub
   - git clone https://www.github.com/UG4/ughub ughub
   - mkdir ug4
-  - ughub\ughub init ug4
-  - ughub\ughub addsource quadruped ug4quad:ug4-packages
-  - ughub\ughub addsource neurobox https://github.com/NeuroBox3D/neurobox-packages.git
-  - ughub\ughub install ugcore ConvectionDiffusion DendriteGenerator MembranePotentialMapping Neurolucida NeuronalTopologyImporter ProMesh SkinLayerGenerator cable_neuron calciumDynamics neuro_collection
+  - cd ug4
+  - ..\ughub\ughub init
+  - ..\ughub\ughub addsource quadruped ug4quad:ug4-packages
+  - ..\ughub\ughub addsource neurobox https://github.com/NeuroBox3D/neurobox-packages.git
+  - ..\ughub\ughub install ugcore ConvectionDiffusion DendriteGenerator MembranePotentialMapping Neurolucida NeuronalTopologyImporter ProMesh SkinLayerGenerator cable_neuron calciumDynamics neuro_collection
 
 build_script:
   - appveyor DownloadFile http://mirror.olnevhost.net/pub/apache/ant/binaries/apache-ant-1.9.13-bin.zip
