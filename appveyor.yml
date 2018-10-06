@@ -51,7 +51,6 @@ install:
   - git clone https://www.github.com/UG4/ughub ughub
   
   - if not exist ug4 mkdir ug4
-  - mkdir ug4
   - cd ug4
   - if not exist .ughub ..\ughub\ughub init
   - ..\ughub\ughub addsource quadruped ug4quad:ug4-packages
