@@ -67,7 +67,7 @@ build_script:
   #- CALL C:\projects\vrl-neurobox-plugin\scripts\build_neurolucida.bat
 
 artifacts:
-  - path: bin\Release\ug4.dll
+  - path: ug4\bin\Release\ug4.dll
     name: ugDLL
 
 #  - path: lib\ugInit-consolApp\.application\final-jars\VRL-UserData\VRL-Neurolucida-Project\build\libs\VRL-Neurolucida-Plugin.jar
