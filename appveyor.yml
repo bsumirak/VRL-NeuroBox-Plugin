@@ -7,10 +7,6 @@ init:
   - git config --global core.autocrlf input
   - cmake --version
 
-#branches:
-#  only:
-#  - master
-
 clone_depth: 50
 
 version: '{build}'
@@ -64,17 +60,29 @@ build_script:
   - cd build && cmake ..\ -DCMAKE_VS_PLATFORM_TOOLSET_HOST_ARCHITECTURE=X64 -G "Visual Studio 15 2017 Win64" -DTARGET=vrl -DLAPACK=OFF -DBLAS=OFF -DDIM=ALL -DCPU=1 -DCOMPILE_INFO=ON -DEMBEDDED_PLUGINS=ON -DSTATIC_BUILD=OFF -DConvectionDiffusion=ON -DProMesh=ON -DDendriteGenerator=ON -DMembranePotentialMapping=ON -DNeuronalTopologyImporter=ON -Dcable_neuron=ON -DcalciumDynamics=ON -Dneuro_collection=ON -Wno-dev
   - MSBuild .\ug4.sln /property:Configuration=Release /property:Platform=x64
   - cd ..
-  - dir
-  - dir lib
-  - dir bin
+  - dir bin\Release
   #- cd %APPVEYOR_BUILD_FOLDER%
   #- CALL scripts\build_vrl_ug_and_api.bat
   #- CALL scripts\build_vrl_userdata.bat
   #- CALL C:\projects\vrl-neurobox-plugin\scripts\build_neurolucida.bat
-#artifacts:
+
+artifacts:
+  - path: bin\Release\ug4.dll
+    name: ugDLL
+
 #  - path: lib\ugInit-consolApp\.application\final-jars\VRL-UserData\VRL-Neurolucida-Project\build\libs\VRL-Neurolucida-Plugin.jar
 #    name: mypackage
-#deploy:
+
+deploy:
+  description: 'test'
+  provider: GitHub
+  auth_token:
+    secure: Ki/Fm5IhIlggsa+Yu/cuZGBu0gmfhmY50/dgFDkSbFGg/xx1UyI1fhXduHmlsOqH
+  draft: true
+  prerelease: true
+  artifact: ugDLL
+  
+  
 #  description: 'development'
 #  provider: GitHub
 #  auth_token:
