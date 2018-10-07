@@ -34,8 +34,6 @@ install:
   - ps: $fileContent += $env:priv_key.Replace(' ', "`n")
   - ps: $fileContent += "`n-----END RSA PRIVATE KEY-----`n"
   - ps: Set-Content $env:userprofile\.ssh\id_rsa $fileContent
-#  - echo "Original contents of c:\users\appveyor\.ssh\config:"
-#  - if exist c:\users\appveyor\.ssh\config type c:\users\appveyor\.ssh\config
   - ps: $fileContent = "Host ug4quad`n"
   - ps: $fileContent += "        HostName        quadruped.gcsc.uni-frankfurt.de`n"
 #  - ps: $fileContent += "        LogLevel        DEBUG3`n"
@@ -43,15 +41,14 @@ install:
   - ps: $fileContent += "        IdentityFile    ~/.ssh/id_rsa`n"
   - ps: Set-Content $env:userprofile\.ssh\config $fileContent
   - echo quadruped.gcsc.uni-frankfurt.de,141.2.38.50 ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDDXtwdR4b+dC5fS8IXlB08BOIj7Fzsw4WnhSYB0/RThjkZuTSMBWasaudbN7h3/7WT4qHAgaOw0RnbiGBbDgIfoknURc4Qe/i0E/Qebz2sFIGUU6W5tvSAfl68MCD3nJVJjyD806eKfmwVlgCjN51urnyxMHewZ7VGnn2vnjWBKVAGgbHLntSR3xjwXznTnDF0w5c1I9LMN0az9bskyoS2Chc1+GTIeUWWhAbHPLGcgupB4IPcvhenUYwxewY4MjrkLkQRieVbFCazHOm1ZHnYiNAtQNu2KvdiYN3d4SQYidQcVZf19rL3VAuJOmUmuhrz7p6JJ8VcQ+08NJYHV7oX>>"c:\users\appveyor\.ssh\known_hosts"
-#  - echo New contents of c:\users\appveyor\.ssh\config:
-#  - type c:\users\appveyor\.ssh\config
-  # ughub and ug4 setup
- 
+
+  # ughub and ug4 setup 
   - if exist ughub rmdir /S /Q ughub
   - git clone https://www.github.com/UG4/ughub ughub
   
-  - if not exist ug4 mkdir ug4
+  - if not exist ug4 mkdir ug4 && echo ug4 directory was not in cache
   - cd ug4
+  - dir
   - if not exist .ughub ..\ughub\ughub init
   - ..\ughub\ughub addsource quadruped ug4quad:ug4-packages
   - ..\ughub\ughub addsource neurobox https://github.com/NeuroBox3D/neurobox-packages.git
@@ -64,7 +61,7 @@ build_script:
   
   - cd %APPVEYOR_BUILD_FOLDER%\ug4
   - dir
-  - if not exist build mkdir build
+  - if not exist build mkdir build && echo build directory was not in cache
   - cd build && cmake ..\ -DCMAKE_VS_PLATFORM_TOOLSET_HOST_ARCHITECTURE=X64 -G "Visual Studio 15 2017 Win64" -DTARGET=vrl -DLAPACK=OFF -DBLAS=OFF -DDIM=ALL -DCPU=1 -DCOMPILE_INFO=ON -DEMBEDDED_PLUGINS=ON -DSTATIC_BUILD=OFF -DConvectionDiffusion=ON -DDendriteGenerator=ON -DMembranePotentialMapping=ON -DNeuronalTopologyImporter=ON -DProMesh=ON -Dcable_neuron=ON -DcalciumDynamics=ON -Dneuro_collection=ON -DNETINoFancyStuff=ON -Wno-dev
   - MSBuild .\ug4.sln /property:Configuration=Release /property:Platform=x64
   - cd ..
