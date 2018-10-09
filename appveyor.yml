@@ -61,14 +61,14 @@ build_script:
   - MSBuild .\ug4.sln /property:Configuration=Release /property:Platform=x64
   - cd ..
   - dir bin\Release
-  #- cd %APPVEYOR_BUILD_FOLDER%
-  #- CALL scripts\build_vrl_ug_and_api.bat
+  - cd %APPVEYOR_BUILD_FOLDER%
+  - CALL scripts\appveyor_build_VRL-UG.bat
   #- CALL scripts\build_vrl_userdata.bat
   #- CALL C:\projects\vrl-neurobox-plugin\scripts\build_neurolucida.bat
 
 artifacts:
-  - path: ug4\bin\Release\ug4.dll
-    name: ugDLL
+  - path: VRL-UG/build/libs/VRL-UG.jar
+    name: UGjar
 
 #  - path: lib\ugInit-consolApp\.application\final-jars\VRL-UserData\VRL-Neurolucida-Project\build\libs\VRL-Neurolucida-Plugin.jar
 #    name: mypackage
@@ -80,8 +80,7 @@ deploy:
     secure: Ki/Fm5IhIlggsa+Yu/cuZGBu0gmfhmY50/dgFDkSbFGg/xx1UyI1fhXduHmlsOqH
   draft: true
   prerelease: true
-  artifact: ugDLL
-  
+  artifact: UGjar
   
 #  description: 'development'
 #  provider: GitHub
