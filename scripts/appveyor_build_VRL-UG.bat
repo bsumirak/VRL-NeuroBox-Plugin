@@ -1,6 +1,4 @@
-#!/bin/bash
-
-## clone and build VRL ##
+# clone and build VRL #
 git clone https://github.com/VRL-Studio/VRL
 cd VRL\VRL
 ant compile
@@ -8,7 +6,7 @@ ant jar
 cd ..\..
 
 
-## clone and build VRL-UG ##
+# clone and build VRL-UG #
 git clone https://github.com/VRL-Studio/VRL-UG
 
 # zip ug4 library to natives.zip file
@@ -22,4 +20,3 @@ mv ug4\bin\Release\natives.zip VRL-UG\src\main\resources\eu\mihosoft\vrl\plugin\
 cd VRL-UG
 ./gradlew build
 cd ..
-

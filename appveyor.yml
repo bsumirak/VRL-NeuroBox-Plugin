@@ -62,7 +62,28 @@ build_script:
   - cd ..
   - dir bin\Release
   - cd %APPVEYOR_BUILD_FOLDER%
-  - CALL scripts\appveyor_build_VRL-UG.bat
+
+  # clone and build VRL
+  - git clone https://github.com/VRL-Studio/VRL
+  - cd VRL\VRL
+  - ant compile
+  - ant jar
+  - cd ..\..
+
+  # clone and build VRL-UG
+  - git clone https://github.com/VRL-Studio/VRL-UG
+
+  - cd ug4\bin\Release
+  - zip natives.zip ug4.dll
+  - cd ..\..\..
+  - mkdir -p VRL-UG\src\main\resources\eu\mihosoft\vrl\plugin\content\natives\windows\x64
+  - mv ug4\bin\Release\natives.zip VRL-UG\src\main\resources\eu\mihosoft\vrl\plugin\content\natives\windows\x64
+
+  - cd VRL-UG
+  - ./gradlew build
+  - cd ..
+
+  #- CALL scripts\appveyor_build_VRL-UG.bat
   #- CALL scripts\build_vrl_userdata.bat
   #- CALL C:\projects\vrl-neurobox-plugin\scripts\build_neurolucida.bat
 
