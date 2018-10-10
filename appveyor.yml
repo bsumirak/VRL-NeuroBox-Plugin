@@ -59,7 +59,7 @@ build_script:
   - cd %APPVEYOR_BUILD_FOLDER%\ug4
   - if not exist build mkdir build && echo build directory was not in cache
   - cd build && cmake ..\ -DCMAKE_VS_PLATFORM_TOOLSET_HOST_ARCHITECTURE=X64 -G "Visual Studio 15 2017 Win64" -DTARGET=vrl -DLAPACK=OFF -DBLAS=OFF -DDIM=ALL -DCPU=1 -DCOMPILE_INFO=ON -DEMBEDDED_PLUGINS=ON -DSTATIC_BUILD=OFF -DConvectionDiffusion=ON -DProMesh=ON -DDendriteGenerator=ON -DMembranePotentialMapping=ON -DNeuronalTopologyImporter=ON -Dcable_neuron=ON -DcalciumDynamics=ON -Dneuro_collection=ON -Wno-dev
-  - MSBuild .\ug4.sln /property:Configuration=Release /property:Platform=x64 /m
+  #- MSBuild .\ug4.sln /property:Configuration=Release /property:Platform=x64 /m
   - cd ..
   - cd %APPVEYOR_BUILD_FOLDER%
   # ug4.dll is now located in %APPVEYOR_BUILD_FOLDER%\ug4\bin\Release
