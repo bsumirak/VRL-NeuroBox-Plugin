@@ -63,15 +63,6 @@ build_script:
   - dir bin\Release
   - cd %APPVEYOR_BUILD_FOLDER%
 
-  # clone and build VRL
-  - git clone https://github.com/VRL-Studio/VRL
-  - cd VRL\VRL
-  - ant compile
-  - ant jar
-  - cd ..\..
-  - dir
-  - if exist .vrl dir .vrl
-
   # clone and build VRL-UG
   - git clone https://github.com/VRL-Studio/VRL-UG
   - cd ug4\bin\Release
@@ -83,14 +74,36 @@ build_script:
   - cd VRL-UG
   - ./gradlew build
   - cd ..
+  
+  # clone and build VRL (NEEDED?)
+  #- git clone https://github.com/VRL-Studio/VRL
+  #- cd VRL\VRL
+  #- ant compile
+  #- ant jar
+  #- cd ..\..
+  #- dir
+  #- if exist .vrl dir .vrl
+
+  # build VRL-UG-API
+  - git clone https://github.com/NeuroBox3D/build_tools.git
+  - cd build_tools
+  - ps: Expand-Archive consoleApp.zip -DestinationPath .
+  - cd consoleApp
+  - mkdir -p .application\property-folder\plugins
+  - cp ../../VRL-UG/build/libs/VRL-UG.jar .application\property-folder\plugins
+  - CALL run.bat
+  - cd ../..
+  # VRL-UG-API.jar is now located in .application\property-folder\plugin-updates
 
   #- CALL scripts\appveyor_build_VRL-UG.bat
   #- CALL scripts\build_vrl_userdata.bat
   #- CALL C:\projects\vrl-neurobox-plugin\scripts\build_neurolucida.bat
 
 artifacts:
-  - path: VRL-UG/build/libs/VRL-UG.jar
+  - path: VRL-UG\build\libs\VRL-UG.jar
     name: UGjar
+  - path: build_tools\consoleApp\.application\property-folder\plugin-updates\VRL-UG-API.jar
+    name: UGAPIjar
 
 #  - path: lib\ugInit-consolApp\.application\final-jars\VRL-UserData\VRL-Neurolucida-Project\build\libs\VRL-Neurolucida-Plugin.jar
 #    name: mypackage
@@ -103,6 +116,7 @@ deploy:
   draft: true
   prerelease: true
   artifact: UGjar
+  artifact: UGAPIjar
   
 #  description: 'development'
 #  provider: GitHub
