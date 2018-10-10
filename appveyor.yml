@@ -91,7 +91,7 @@ build_script:
   - ps: Expand-Archive consoleApp.zip -DestinationPath .
   - cd consoleApp
   - mkdir -p .application\property-folder\plugins
-  - mklink ..\..\VRL-UG\build\libs\VRL-UG.jar .application\property-folder\plugins\VRL-UG.jar
+  - mklink .application\property-folder\plugins\VRL-UG.jar ..\..\VRL-UG\build\libs\VRL-UG.jar
   - CALL run.bat
   - cd ../../..
   # VRL-UG-API.jar is now located in %APPVEYOR_BUILD_FOLDER%\build_tools\consoleApp\.application\property-folder\plugin-updates
@@ -99,8 +99,8 @@ build_script:
   # build VRL-UserData
   - git clone https://github.com/VRL-Studio/VRL-UserData
   - cd VRL-UserData
-  - mklink ..\VRL-UG\build\libs\VRL-UG.jar jars\VRL-UG.jar
-  - mklink ..\build_tools\consoleApp\.application\property-folder\plugin-updates\VRL-UG-API.jar jars\VRL-UG-API.jar
+  - mklink jars\VRL-UG.jar ..\VRL-UG\build\libs\VRL-UG.jar
+  - mklink jars\VRL-UG-API.jar ..\build_tools\consoleApp\.application\property-folder\plugin-updates\VRL-UG-API.jar
   - ant compile
   - ant jar
   - cd ..
@@ -110,9 +110,9 @@ build_script:
   - git clone https://github.com/NeuroBox3D/VRL-NeuroBox-Plugin.git
   - cd VRL-NeuroBox-Plugin
   - mkdir lib
-  - mklink ..\VRL-UG\build\libs\VRL-UG.jar lib\VRL-UG.jar
-  - mklink ..\build_tools\consoleApp\.application\property-folder\plugin-updates\VRL-UG-API.jar lib\VRL-UG-API.jar
-  - mklink ..\VRL-UserData\dist\VRL-UserData.jar lib\VRL-UserData.jar
+  - mklink lib\VRL-UG.jar ..\VRL-UG\build\libs\VRL-UG.jar
+  - mklink lib\VRL-UG-API.jar ..\build_tools\consoleApp\.application\property-folder\plugin-updates\VRL-UG-API.jar
+  - mklink lib\VRL-UserData.jar ..\VRL-UserData\dist\VRL-UserData.jar
   - ./gradlew build
   - cd ..
   # VRL-NeuroBox-Plugin.jar is now located in %APPVEYOR_BUILD_FOLDER%\VRL-NeuroBox-Plugin\build\libs\VRL-UG.jar
