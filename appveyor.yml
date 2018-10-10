@@ -115,8 +115,7 @@ deploy:
     secure: Ki/Fm5IhIlggsa+Yu/cuZGBu0gmfhmY50/dgFDkSbFGg/xx1UyI1fhXduHmlsOqH
   draft: true
   prerelease: true
-  artifact: UGjar
-  artifact: UGAPIjar
+  artifact: UGjar UGAPIjar
   
 #  description: 'development'
 #  provider: GitHub
