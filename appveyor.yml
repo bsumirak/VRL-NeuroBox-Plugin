@@ -88,6 +88,7 @@ build_script:
        mv ug4\bin\Release\natives.zip VRL-UG\src\main\resources\eu\mihosoft\vrl\plugin\content\natives\windows\x64
        cd VRL-UG
        ./gradlew build
+       rm %APPVEYOR_BUILD_FOLDER%\ug4\bin\Release\natives.zip
        cd %APPVEYOR_BUILD_FOLDER%
        :: VRL-UG.jar is now located in %APPVEYOR_BUILD_FOLDER%\VRL-UG\build\libs\VRL-UG.jar
      )
