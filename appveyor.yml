@@ -66,6 +66,7 @@ build_script:
   # build VRL-UG
   - git clone https://github.com/VRL-Studio/VRL-UG
   - cd ug4\bin\Release
+  - if exist natives.zip rm natives.zip
   - ps: Compress-Archive -Path ug4.dll -DestinationPath natives.zip
   - cd ..\..\..
   - mkdir -p VRL-UG\src\main\resources\eu\mihosoft\vrl\plugin\content\natives\windows\x64
@@ -73,6 +74,7 @@ build_script:
   - cd VRL-UG
   - ./gradlew build
   - cd %APPVEYOR_BUILD_FOLDER%
+  - rm ug4\bin\Release\natives.zip
   # VRL-UG.jar is now located in %APPVEYOR_BUILD_FOLDER%\VRL-UG\build\libs\VRL-UG.jar
   
   # build VRL-UG-API
