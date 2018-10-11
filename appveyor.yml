@@ -101,7 +101,7 @@ build_script:
   - dir ..\build_tools\consoleApp\.application\property-folder\plugin-updates
   - mklink jars\VRL.jar ..\VRL\VRL\dist\VRL.jar
   - cp ..\VRL-UG\build\libs\VRL-UG.jar jars
-  - mklink jars\VRL-UG-API.jar ..\build_tools\consoleApp\.application\property-folder\plugin-updates\VRL-UG-API.jar
+  - mklink /h jars\VRL-UG-API.jar ..\build_tools\consoleApp\.application\property-folder\plugin-updates\VRL-UG-API.jar
   - ant jar
   - cd %APPVEYOR_BUILD_FOLDER%
   # VRL-UserData.jar is now located in %APPVEYOR_BUILD_FOLDER%\VRL-UserData\dist\VRL-UserData.jar
