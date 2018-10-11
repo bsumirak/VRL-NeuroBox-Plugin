@@ -55,7 +55,7 @@ install:
   - ..\ughub\ughub install ugcore ConvectionDiffusion DendriteGenerator MembranePotentialMapping Neurolucida NeuronalTopologyImporter ProMesh SkinLayerGenerator cable_neuron calciumDynamics neuro_collection
 
 build_script:
-  - call test.bat
+  - call scripts/test.bat
 
   # build ug dll
   #- cd %APPVEYOR_BUILD_FOLDER%\ug4
