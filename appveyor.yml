@@ -73,6 +73,7 @@ build_script:
   - cd build && cmake ..\ -DCMAKE_VS_PLATFORM_TOOLSET_HOST_ARCHITECTURE=X64 -G "Visual Studio 15 2017 Win64" -DTARGET=vrl -DLAPACK=OFF -DBLAS=OFF -DDIM=ALL -DCPU=1 -DCOMPILE_INFO=ON -DEMBEDDED_PLUGINS=ON -DSTATIC_BUILD=OFF -DConvectionDiffusion=ON -DProMesh=ON -DDendriteGenerator=%ON% -DMembranePotentialMapping=%ON% -DNeuronalTopologyImporter=%ON% -Dcable_neuron=%ON% -DcalciumDynamics=%ON% -Dneuro_collection=%ON% -Wno-dev
   - MSBuild .\ug4.sln /property:Configuration=Release /property:Platform=x64 /m
   - cd %APPVEYOR_BUILD_FOLDER%\ug4\bin\Release
+  - rm %APPVEYOR_BUILD_FOLDER%\ug4\bin\Release\natives.zip
   - ps: Compress-Archive -Path ug4.dll -DestinationPath natives.zip
   - cd %APPVEYOR_BUILD_FOLDER%
   # ug4.dll and natives.zip are now located in %APPVEYOR_BUILD_FOLDER%\ug4\bin\Release
@@ -97,7 +98,7 @@ build_script:
   # STAGE 3 #
   # #########
   - |-
-     if %STAGE% GEQ 3 (
+     if "%STAGE%" GEQ 3 (
      
        :: build VRL-UG-API
        git clone --depth 1 https://github.com/NeuroBox3D/build_tools.git
@@ -136,6 +137,8 @@ build_script:
        cd %APPVEYOR_BUILD_FOLDER%
        :: VRL-NeuroBox-Plugin.jar is now located in %APPVEYOR_BUILD_FOLDER%\VRL-NeuroBox-Plugin\build\libs\VRL-UG.jar
      )
+
+  - rm %APPVEYOR_BUILD_FOLDER%\ug4\bin\Release\natives.zip
     
 artifacts:
   - path: VRL-UG\build\libs\VRL-UG.jar
