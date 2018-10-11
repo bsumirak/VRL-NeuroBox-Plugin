@@ -25,6 +25,7 @@ environment:
 
 cache:
   - ug4/ 
+  - nextStage.txt
   
 install:
   - ps: $fileContent = "-----BEGIN RSA PRIVATE KEY-----`n"
@@ -54,14 +55,29 @@ install:
   - ..\ughub\ughub install ugcore ConvectionDiffusion DendriteGenerator MembranePotentialMapping Neurolucida NeuronalTopologyImporter ProMesh SkinLayerGenerator cable_neuron calciumDynamics neuro_collection
 
 build_script:
+  # load build stage from file:
+  #   1 for ugcore only;
+  #   2 for build VRL-UG complete
+  #   3 for all of NeuroBox
+  - if exist nextStage.txt ( set /p STAGE<nextStage.txt ) ELSE ( set STAGE 1 )
+  - echo %STAGE%>nextStage.txt
+  
+  # ###########
+  # STAGE 1/2 #
+  # ###########
   # build ug dll
   - cd %APPVEYOR_BUILD_FOLDER%\ug4
   - if not exist build mkdir build && echo build directory was not in cache
-  - cd build && cmake ..\ -DCMAKE_VS_PLATFORM_TOOLSET_HOST_ARCHITECTURE=X64 -G "Visual Studio 15 2017 Win64" -DTARGET=vrl -DLAPACK=OFF -DBLAS=OFF -DDIM=ALL -DCPU=1 -DCOMPILE_INFO=ON -DEMBEDDED_PLUGINS=ON -DSTATIC_BUILD=OFF -DConvectionDiffusion=ON -DProMesh=ON -DDendriteGenerator=ON -DMembranePotentialMapping=ON -DNeuronalTopologyImporter=ON -Dcable_neuron=ON -DcalciumDynamics=ON -Dneuro_collection=ON -Wno-dev
+  - set ON=OFF
+  - if %STAGE%==2 set ON=ON
+  - cd build && cmake ..\ -DCMAKE_VS_PLATFORM_TOOLSET_HOST_ARCHITECTURE=X64 -G "Visual Studio 15 2017 Win64" -DTARGET=vrl -DLAPACK=OFF -DBLAS=OFF -DDIM=ALL -DCPU=1 -DCOMPILE_INFO=ON -DEMBEDDED_PLUGINS=ON -DSTATIC_BUILD=OFF -DConvectionDiffusion=ON -DProMesh=ON -DDendriteGenerator=%ON% -DMembranePotentialMapping=%ON% -DNeuronalTopologyImporter=%ON% -Dcable_neuron=%ON% -DcalciumDynamics=%ON% -Dneuro_collection=%ON% -Wno-dev
   - MSBuild .\ug4.sln /property:Configuration=Release /property:Platform=x64 /m
   - cd %APPVEYOR_BUILD_FOLDER%
   # ug4.dll is now located in %APPVEYOR_BUILD_FOLDER%\ug4\bin\Release
 
+  - echo 2>nextStage.txt
+  - if %STAGE%==1 goto finalize
+  
   # build VRL-UG
   - git clone https://github.com/VRL-Studio/VRL-UG
   - cd ug4\bin\Release
@@ -74,6 +90,13 @@ build_script:
   - cd %APPVEYOR_BUILD_FOLDER%
   # VRL-UG.jar is now located in %APPVEYOR_BUILD_FOLDER%\VRL-UG\build\libs\VRL-UG.jar
 
+  - echo 3>nextStage.txt
+  - if not %STAGE%==3 goto finalize
+  
+  
+  # #########
+  # STAGE 3 #
+  # #########
   # build VRL-UG-API
   - git clone --depth 1 https://github.com/NeuroBox3D/build_tools.git
   - cd build_tools
@@ -112,6 +135,8 @@ build_script:
   - ./gradlew build
   - cd %APPVEYOR_BUILD_FOLDER%
   # VRL-NeuroBox-Plugin.jar is now located in %APPVEYOR_BUILD_FOLDER%\VRL-NeuroBox-Plugin\build\libs\VRL-UG.jar
+
+  - :finalize
 
 artifacts:
   - path: VRL-UG\build\libs\VRL-UG.jar
