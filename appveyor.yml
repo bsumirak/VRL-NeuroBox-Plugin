@@ -137,7 +137,7 @@ deploy:
     secure: Ki/Fm5IhIlggsa+Yu/cuZGBu0gmfhmY50/dgFDkSbFGg/xx1UyI1fhXduHmlsOqH
   draft: true
   prerelease: true
-  artifact: UGjar UGAPIjar UserDatajar NeuroBoxjar
+  artifact: UGjar, UGAPIjar, UserDatajar, NeuroBoxjar
   
 #  description: 'development'
 #  provider: GitHub
