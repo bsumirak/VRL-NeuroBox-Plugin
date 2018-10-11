@@ -54,7 +54,9 @@ install:
   - ..\ughub\ughub addsource neurobox https://github.com/NeuroBox3D/neurobox-packages.git
   - ..\ughub\ughub install ugcore ConvectionDiffusion DendriteGenerator MembranePotentialMapping Neurolucida NeuronalTopologyImporter ProMesh SkinLayerGenerator cable_neuron calciumDynamics neuro_collection
 
-build_script:  
+build_script:
+  - call test.bat
+
   # build ug dll
   #- cd %APPVEYOR_BUILD_FOLDER%\ug4
   #- if not exist build mkdir build && echo build directory was not in cache
