@@ -59,7 +59,7 @@ build_script:
   #   1 for ugcore only;
   #   2 for build VRL-UG complete
   #   3 for all of NeuroBox
-  - if exist nextStage.txt ( set /p STAGE<nextStage.txt ) ELSE ( set STAGE=1 )
+  - if exist nextStage.txt ( set /p STAGE=<nextStage.txt ) ELSE ( set STAGE=1 )
   - echo 1>nextStage.txt
   - goto :eof
 
