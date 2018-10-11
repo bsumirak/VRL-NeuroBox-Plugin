@@ -80,7 +80,7 @@ build_script:
 
   - echo 2>nextStage.txt
   - |-
-     if %STAGE% GEQ 2 (
+     if "%STAGE%" GEQ 2 (
      
        :: build VRL-UG
        git clone https://github.com/VRL-Studio/VRL-UG
