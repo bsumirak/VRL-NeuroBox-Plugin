@@ -33,7 +33,6 @@ install:
   - ps: Set-Content $env:userprofile\.ssh\id_rsa $fileContent
   - ps: $fileContent = "Host ug4quad`n"
   - ps: $fileContent += "        HostName        quadruped.gcsc.uni-frankfurt.de`n"
-#  - ps: $fileContent += "        LogLevel        DEBUG3`n"
   - ps: $fileContent += "        User            gitolite3`n"
   - ps: $fileContent += "        IdentityFile    ~/.ssh/id_rsa`n"
   - ps: Set-Content $env:userprofile\.ssh\config $fileContent
@@ -56,10 +55,10 @@ install:
 
 build_script:
   # build ug dll
-  #- cd %APPVEYOR_BUILD_FOLDER%\ug4
-  #- if not exist build mkdir build && echo build directory was not in cache
-  #- cd build && cmake ..\ -DCMAKE_VS_PLATFORM_TOOLSET_HOST_ARCHITECTURE=X64 -G "Visual Studio 15 2017 Win64" -DTARGET=vrl -DLAPACK=OFF -DBLAS=OFF -DDIM=ALL -DCPU=1 -DCOMPILE_INFO=ON -DEMBEDDED_PLUGINS=ON -DSTATIC_BUILD=OFF -DConvectionDiffusion=ON -DProMesh=ON -DDendriteGenerator=ON -DMembranePotentialMapping=ON -DNeuronalTopologyImporter=ON -Dcable_neuron=ON -DcalciumDynamics=ON -Dneuro_collection=ON -Wno-dev
-  #- MSBuild .\ug4.sln /property:Configuration=Release /property:Platform=x64 /m
+  - cd %APPVEYOR_BUILD_FOLDER%\ug4
+  - if not exist build mkdir build && echo build directory was not in cache
+  - cd build && cmake ..\ -DCMAKE_VS_PLATFORM_TOOLSET_HOST_ARCHITECTURE=X64 -G "Visual Studio 15 2017 Win64" -DTARGET=vrl -DLAPACK=OFF -DBLAS=OFF -DDIM=ALL -DCPU=1 -DCOMPILE_INFO=ON -DEMBEDDED_PLUGINS=ON -DSTATIC_BUILD=OFF -DConvectionDiffusion=ON -DProMesh=ON -DDendriteGenerator=ON -DMembranePotentialMapping=ON -DNeuronalTopologyImporter=ON -Dcable_neuron=ON -DcalciumDynamics=ON -Dneuro_collection=ON -Wno-dev
+  - MSBuild .\ug4.sln /property:Configuration=Release /property:Platform=x64 /m
   - cd %APPVEYOR_BUILD_FOLDER%
   # ug4.dll is now located in %APPVEYOR_BUILD_FOLDER%\ug4\bin\Release
 
@@ -96,9 +95,6 @@ build_script:
   # build VRL-UserData
   - git clone https://github.com/VRL-Studio/VRL-UserData
   - cd VRL-UserData
-  - dir ..\VRL\VRL\dist
-  - dir ..\VRL-UG\build\libs
-  - dir ..\build_tools\consoleApp\.application\property-folder\plugin-updates
   - mklink /h jars\VRL.jar ..\VRL\VRL\dist\VRL.jar
   - mklink /h jars\VRL-UG.jar ..\VRL-UG\build\libs\VRL-UG.jar
   - mklink /h jars\VRL-UG-API.jar ..\build_tools\consoleApp\.application\property-folder\plugin-updates\VRL-UG-API.jar
@@ -127,9 +123,6 @@ artifacts:
   - path: VRL-NeuroBox-Plugin\build\libs\VRL-NeuroBox-Plugin.jar
     name: NeuroBoxjar
 
-#  - path: lib\ugInit-consolApp\.application\final-jars\VRL-UserData\VRL-Neurolucida-Project\build\libs\VRL-Neurolucida-Plugin.jar
-#    name: mypackage
-
 deploy:
   description: 'test'
   provider: GitHub
@@ -138,17 +131,5 @@ deploy:
   draft: true
   prerelease: true
   artifact: UGjar, UGAPIjar, UserDatajar, NeuroBoxjar
-  
-#  description: 'development'
-#  provider: GitHub
-#  auth_token:
-#    secure: ChNgJS32tV9vpeZuT0S3nVRohURT4bpUODc2y4csRp2T7ssvdz6CHMHRituo3Gp0
-#  draft: true
-#  prerelease: false
-#  artifact: mypackage
-  #on:
-  #  appveyor_repo_tag: true  
-  
-  
-  
+
 
