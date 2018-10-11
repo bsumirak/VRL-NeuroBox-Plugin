@@ -136,7 +136,7 @@ build_script:
        ./gradlew build
        cd %APPVEYOR_BUILD_FOLDER%
        :: VRL-NeuroBox-Plugin.jar is now located in %APPVEYOR_BUILD_FOLDER%\VRL-NeuroBox-Plugin\build\libs\VRL-UG.jar
-    )
+     )
     
 artifacts:
   - path: VRL-UG\build\libs\VRL-UG.jar
