@@ -61,7 +61,9 @@ build_script:
   #   3 for all of NeuroBox
   - if exist nextStage.txt ( set /p STAGE<nextStage.txt ) ELSE ( set STAGE=1 )
   - echo 1>nextStage.txt
+  - goto testLabel
   
+  :testLabel
   # ###########
   # STAGE 1/2 #
   # ###########
@@ -136,7 +138,7 @@ build_script:
   - cd %APPVEYOR_BUILD_FOLDER%
   # VRL-NeuroBox-Plugin.jar is now located in %APPVEYOR_BUILD_FOLDER%\VRL-NeuroBox-Plugin\build\libs\VRL-UG.jar
 
-  - :finalize
+  :finalize
 
 artifacts:
   - path: VRL-UG\build\libs\VRL-UG.jar
