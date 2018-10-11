@@ -98,7 +98,7 @@ build_script:
   # STAGE 3 #
   # #########
   - |-
-     if "%STAGE%" GEQ 3 (
+     if "%STAGE%"==3 (
      
        :: build VRL-UG-API
        git clone --depth 1 https://github.com/NeuroBox3D/build_tools.git
