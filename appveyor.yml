@@ -96,9 +96,9 @@ build_script:
   # build VRL-UserData
   - git clone https://github.com/VRL-Studio/VRL-UserData
   - cd VRL-UserData
-  - type ..\VRL\VRL\dist\VRL.jar
-  - type ..\VRL-UG\build\libs\VRL-UG.jar
-  - type ..\build_tools\consoleApp\.application\property-folder\plugin-updates\VRL-UG-API.jar
+  - dir ..\VRL\VRL\dist
+  - dir ..\VRL-UG\build\libs
+  - dir ..\build_tools\consoleApp\.application\property-folder\plugin-updates
   - mklink jars\VRL.jar ..\VRL\VRL\dist\VRL.jar
   - cp ..\VRL-UG\build\libs\VRL-UG.jar jars
   - mklink jars\VRL-UG-API.jar ..\build_tools\consoleApp\.application\property-folder\plugin-updates\VRL-UG-API.jar
