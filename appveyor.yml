@@ -91,7 +91,7 @@ build_script:
   - cd consoleApp
   - mkdir -p .application\property-folder\plugins
   - cp ..\..\VRL-UG\build\libs\VRL-UG.jar .application\property-folder\plugins
-  call run.bat
+  - call run.bat
   - cd ..\..\..
   # VRL-UG-API.jar is now located in %APPVEYOR_BUILD_FOLDER%\build_tools\consoleApp\.application\property-folder\plugin-updates
 
