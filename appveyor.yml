@@ -100,7 +100,7 @@ build_script:
   - dir ..\VRL-UG\build\libs
   - dir ..\build_tools\consoleApp\.application\property-folder\plugin-updates
   - mklink /h jars\VRL.jar ..\VRL\VRL\dist\VRL.jar
-  - mklink /h jars/VRL-UG.jar ..\VRL-UG\build\libs\VRL-UG.jar
+  - mklink /h jars\VRL-UG.jar ..\VRL-UG\build\libs\VRL-UG.jar
   - mklink /h jars\VRL-UG-API.jar ..\build_tools\consoleApp\.application\property-folder\plugin-updates\VRL-UG-API.jar
   - ant jar
   - cd %APPVEYOR_BUILD_FOLDER%
