@@ -79,9 +79,8 @@ build_script:
   # ug4.dll and natives.zip are now located in %APPVEYOR_BUILD_FOLDER%\ug4\bin\Release
 
   - echo 2>nextStage.txt
-  - |-
+  - |
      if "%STAGE%" GEQ 2 (
-     
        :: build VRL-UG
        git clone https://github.com/VRL-Studio/VRL-UG
        mkdir -p VRL-UG\src\main\resources\eu\mihosoft\vrl\plugin\content\natives\windows\x64
@@ -98,9 +97,8 @@ build_script:
   # #########
   # STAGE 3 #
   # #########
-  - |-
+  - |
      if "%STAGE%"==3 (
-     
        :: build VRL-UG-API
        git clone --depth 1 https://github.com/NeuroBox3D/build_tools.git
        cd build_tools
