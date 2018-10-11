@@ -61,9 +61,8 @@ build_script:
   #   3 for all of NeuroBox
   - if exist nextStage.txt ( set /p STAGE<nextStage.txt ) ELSE ( set STAGE=1 )
   - echo 1>nextStage.txt
-  - goto testLabel
-  
-  :testLabel
+  - goto :eof
+
   # ###########
   # STAGE 1/2 #
   # ###########
@@ -78,7 +77,7 @@ build_script:
   # ug4.dll is now located in %APPVEYOR_BUILD_FOLDER%\ug4\bin\Release
 
   - echo 2>nextStage.txt
-  - if %STAGE%==1 goto finalize
+  - if %STAGE%==1 goto :eof
   
   # build VRL-UG
   - git clone https://github.com/VRL-Studio/VRL-UG
@@ -93,7 +92,7 @@ build_script:
   # VRL-UG.jar is now located in %APPVEYOR_BUILD_FOLDER%\VRL-UG\build\libs\VRL-UG.jar
 
   - echo 3>nextStage.txt
-  - if not %STAGE%==3 goto finalize
+  - if not %STAGE%==3 goto :eof
   
   
   # #########
@@ -137,8 +136,6 @@ build_script:
   - ./gradlew build
   - cd %APPVEYOR_BUILD_FOLDER%
   # VRL-NeuroBox-Plugin.jar is now located in %APPVEYOR_BUILD_FOLDER%\VRL-NeuroBox-Plugin\build\libs\VRL-UG.jar
-
-  :finalize
 
 artifacts:
   - path: VRL-UG\build\libs\VRL-UG.jar
