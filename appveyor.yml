@@ -55,9 +55,6 @@ install:
   - ..\ughub\ughub install ugcore ConvectionDiffusion DendriteGenerator MembranePotentialMapping Neurolucida NeuronalTopologyImporter ProMesh SkinLayerGenerator cable_neuron calciumDynamics neuro_collection
 
 build_script:
-  - cd %APPVEYOR_BUILD_FOLDER%
-  - call scripts/test.bat
-
   # build ug dll
   #- cd %APPVEYOR_BUILD_FOLDER%\ug4
   #- if not exist build mkdir build && echo build directory was not in cache
@@ -75,7 +72,7 @@ build_script:
   - mv ug4\bin\Release\natives.zip VRL-UG\src\main\resources\eu\mihosoft\vrl\plugin\content\natives\windows\x64
   - cd VRL-UG
   - ./gradlew build
-  - cd ..
+  - cd %APPVEYOR_BUILD_FOLDER%
   # VRL-UG.jar is now located in %APPVEYOR_BUILD_FOLDER%\VRL-UG\build\libs\VRL-UG.jar
   
   # clone and build VRL (NEEDED?)
@@ -88,14 +85,14 @@ build_script:
   #- if exist .vrl dir .vrl
 
   # build VRL-UG-API
-  - git clone https://github.com/NeuroBox3D/build_tools.git
+  - git clone --depth 1 https://github.com/NeuroBox3D/build_tools.git
   - cd build_tools
   - ps: Expand-Archive consoleApp.zip -DestinationPath .
   - cd consoleApp
   - mkdir -p .application\property-folder\plugins
   - cp ..\..\VRL-UG\build\libs\VRL-UG.jar .application\property-folder\plugins
   - call run.bat
-  - cd ..\..\..
+  - cd %APPVEYOR_BUILD_FOLDER%
   # VRL-UG-API.jar is now located in %APPVEYOR_BUILD_FOLDER%\build_tools\consoleApp\.application\property-folder\plugin-updates
 
   # build VRL-UserData
@@ -105,7 +102,7 @@ build_script:
   - mklink jars\VRL-UG-API.jar ..\build_tools\consoleApp\.application\property-folder\plugin-updates\VRL-UG-API.jar
   - ant compile
   - ant jar
-  - cd ..
+  - cd %APPVEYOR_BUILD_FOLDER%
   # VRL-UserData.jar is now located in %APPVEYOR_BUILD_FOLDER%\VRL-UserData\dist\VRL-UserData.jar
 
   # build VRL-NeuroBox
@@ -116,7 +113,7 @@ build_script:
   - mklink lib\VRL-UG-API.jar ..\build_tools\consoleApp\.application\property-folder\plugin-updates\VRL-UG-API.jar
   - mklink lib\VRL-UserData.jar ..\VRL-UserData\dist\VRL-UserData.jar
   - ./gradlew build
-  - cd ..
+  - cd %APPVEYOR_BUILD_FOLDER%
   # VRL-NeuroBox-Plugin.jar is now located in %APPVEYOR_BUILD_FOLDER%\VRL-NeuroBox-Plugin\build\libs\VRL-UG.jar
 
 artifacts:
