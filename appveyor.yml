@@ -61,7 +61,6 @@ build_script:
   #   3 for all of NeuroBox
   - if exist nextStage.txt ( set /p STAGE=<nextStage.txt ) ELSE ( set STAGE=1 )
   - echo 1>nextStage.txt
-  - goto :eof
 
   # ###########
   # STAGE 1/2 #
@@ -70,7 +69,7 @@ build_script:
   - cd %APPVEYOR_BUILD_FOLDER%\ug4
   - if not exist build mkdir build && echo build directory was not in cache
   - set ON=OFF
-  - if %STAGE%==2 set ON=ON
+  - if %STAGE%==2 set ON="ON"
   - cd build && cmake ..\ -DCMAKE_VS_PLATFORM_TOOLSET_HOST_ARCHITECTURE=X64 -G "Visual Studio 15 2017 Win64" -DTARGET=vrl -DLAPACK=OFF -DBLAS=OFF -DDIM=ALL -DCPU=1 -DCOMPILE_INFO=ON -DEMBEDDED_PLUGINS=ON -DSTATIC_BUILD=OFF -DConvectionDiffusion=ON -DProMesh=ON -DDendriteGenerator=%ON% -DMembranePotentialMapping=%ON% -DNeuronalTopologyImporter=%ON% -Dcable_neuron=%ON% -DcalciumDynamics=%ON% -Dneuro_collection=%ON% -Wno-dev
   - MSBuild .\ug4.sln /property:Configuration=Release /property:Platform=x64 /m
   - cd %APPVEYOR_BUILD_FOLDER%\ug4\bin\Release
