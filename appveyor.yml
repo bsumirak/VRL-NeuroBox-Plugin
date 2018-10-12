@@ -79,7 +79,6 @@ build_script:
   # build VRL-UG-API
   - git clone --depth 1 https://github.com/NeuroBox3D/build_tools.git
   - cd build_tools
-  - ps: Expand-Archive consoleApp.zip -DestinationPath .
   - cd consoleApp
   - mkdir -p .application\property-folder\plugins
   - cp ..\..\VRL-UG\build\libs\VRL-UG.jar .application\property-folder\plugins
