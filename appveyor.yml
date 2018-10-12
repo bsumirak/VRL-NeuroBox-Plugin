@@ -60,7 +60,7 @@ build_script:
   - mkdir build
   - cd build && cmake ..\ -DCMAKE_VS_PLATFORM_TOOLSET_HOST_ARCHITECTURE=X64 -G "Visual Studio 15 2017 Win64"
   - MSBuild .\P_TETGEN.sln /property:Configuration=Release /property:Platform=x64 /m
-  - dir ../Release
+  - dir ..\Release
   - cd %APPVEYOR_BUILD_FOLDER%
   # tetgen is now located in %APPVEYOR_BUILD_FOLDER%\tetgen143
   
