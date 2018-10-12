@@ -68,7 +68,7 @@ build_script:
   # build ug dll
   - cd ug4
   - if not exist build mkdir build && echo build directory was not in cache
-  - set ON=OFF
+  - set ON=ON
   - >-
     cd build && cmake ..\ -DCMAKE_VS_PLATFORM_TOOLSET_HOST_ARCHITECTURE=X64 -G "Visual Studio 15 2017 Win64" -DTARGET=vrl
     -DLAPACK=OFF -DBLAS=OFF -DDIM=ALL -DCPU=1 -DCOMPILE_INFO=ON -DEMBEDDED_PLUGINS=ON -DSTATIC_BUILD=OFF
