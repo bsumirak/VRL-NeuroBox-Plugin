@@ -66,6 +66,7 @@ build_script:
   
   # build ug dll
   - cd %APPVEYOR_BUILD_FOLDER%\ug4
+  - if exist build rm -r build
   - if not exist build mkdir build && echo build directory was not in cache
   - set ON=OFF
   - echo include(${UG_ROOT_PATH}/ugcore/cmake/log_useful_cmake_variables.cmake)>>ugcore\cmake\ug_includes.cmake
