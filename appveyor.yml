@@ -55,21 +55,19 @@ install:
 
 build_script:
   # build TetGen
+  - cd %APPVEYOR_BUILD_FOLDER%
   - git clone https://github.com/NeuroBox3D/tetgen143
   - cd tetgen143
   - mkdir build
   - cd build && cmake ..\ -DCMAKE_VS_PLATFORM_TOOLSET_HOST_ARCHITECTURE=X64 -G "Visual Studio 15 2017 Win64"
   - MSBuild .\P_TETGEN.sln /property:Configuration=Release /property:Platform=x64 /m
-  - dir ..\Release
   - cd %APPVEYOR_BUILD_FOLDER%
   # tetgen is now located in %APPVEYOR_BUILD_FOLDER%\tetgen143
   
   # build ug dll
-  - cd %APPVEYOR_BUILD_FOLDER%\ug4
-  - if exist build rm -r build
+  - cd ug4
   - if not exist build mkdir build && echo build directory was not in cache
   - set ON=OFF
-  - echo include(${UG_ROOT_PATH}/ugcore/cmake/log_useful_cmake_variables.cmake)>>ugcore\cmake\ug_includes.cmake
   - >-
     cd build && cmake ..\ -DCMAKE_VS_PLATFORM_TOOLSET_HOST_ARCHITECTURE=X64 -G "Visual Studio 15 2017 Win64" -DTARGET=vrl
     -DLAPACK=OFF -DBLAS=OFF -DDIM=ALL -DCPU=1 -DCOMPILE_INFO=ON -DEMBEDDED_PLUGINS=ON -DSTATIC_BUILD=OFF
