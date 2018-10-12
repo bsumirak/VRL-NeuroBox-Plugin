@@ -61,6 +61,7 @@ build_script:
   - mkdir build
   - cd build && cmake ..\ -DCMAKE_VS_PLATFORM_TOOLSET_HOST_ARCHITECTURE=X64 -G "Visual Studio 15 2017 Win64"
   - MSBuild .\P_TETGEN.sln /property:Configuration=Release /property:Platform=x64 /m
+  - mv ..\Release\tet.lib ..\
   - cd %APPVEYOR_BUILD_FOLDER%
   # tetgen is now located in %APPVEYOR_BUILD_FOLDER%\tetgen143
   
@@ -71,7 +72,7 @@ build_script:
   - >-
     cd build && cmake ..\ -DCMAKE_VS_PLATFORM_TOOLSET_HOST_ARCHITECTURE=X64 -G "Visual Studio 15 2017 Win64" -DTARGET=vrl
     -DLAPACK=OFF -DBLAS=OFF -DDIM=ALL -DCPU=1 -DCOMPILE_INFO=ON -DEMBEDDED_PLUGINS=ON -DSTATIC_BUILD=OFF
-    -DTETGEN=%APPVEYOR_BUILD_FOLDER%\tetgen143\Release -DConvectionDiffusion=ON -DProMesh=ON
+    -DTETGEN=%APPVEYOR_BUILD_FOLDER%\tetgen143 -DConvectionDiffusion=ON -DProMesh=ON
     -DDendriteGenerator=%ON% -DMembranePotentialMapping=%ON% -DNeuronalTopologyImporter=%ON%
     -Dcable_neuron=%ON% -DcalciumDynamics=%ON% -Dneuro_collection=%ON% -Wno-dev
   - MSBuild .\ug4.sln /property:Configuration=Release /property:Platform=x64 /m
