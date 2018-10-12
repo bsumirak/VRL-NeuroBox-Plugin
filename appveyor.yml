@@ -74,7 +74,6 @@ build_script:
   - cd VRL-UG
   - ./gradlew build
   - cd %APPVEYOR_BUILD_FOLDER%
-  - rm ug4\bin\Release\natives.zip
   # VRL-UG.jar is now located in %APPVEYOR_BUILD_FOLDER%\VRL-UG\build\libs\VRL-UG.jar
   
   # build VRL-UG-API
