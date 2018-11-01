@@ -68,15 +68,86 @@ build_script:
   # build ug dll
   - cd ug4
   - if not exist build mkdir build && echo build directory was not in cache
-  - set ON=OFF
+  - set ON=ON
   - >-
     cd build && cmake ..\ -DCMAKE_VS_PLATFORM_TOOLSET_HOST_ARCHITECTURE=X64 -G "Visual Studio 15 2017 Win64" -DTARGET=vrl
     -DLAPACK=OFF -DBLAS=OFF -DDIM=ALL -DCPU=1 -DCOMPILE_INFO=ON -DEMBEDDED_PLUGINS=ON -DSTATIC_BUILD=OFF
     -DTETGEN=%APPVEYOR_BUILD_FOLDER%\tetgen143
-    -DConvectionDiffusion=%ON% -DDendriteGenerator=OFF -DProMesh=%ON%
+    -DConvectionDiffusion=%ON% -DProMesh=%ON%
     -DMembranePotentialMapping=%ON% -DNeuronalTopologyImporter=%ON%
     -Dcable_neuron=%ON% -DcalciumDynamics=%ON% -Dneuro_collection=%ON% -Wno-dev
   - MSBuild .\ug4.sln /property:Configuration=Release /property:Platform=x64 /m
   - cd %APPVEYOR_BUILD_FOLDER%
   # ug4.dll is now located in %APPVEYOR_BUILD_FOLDER%\ug4\bin\Release
   
+  # build VRL-UG
+  - git clone https://github.com/VRL-Studio/VRL-UG
+  - cd ug4\bin\Release
+  - if exist natives.zip rm natives.zip
+  - ps: Compress-Archive -Path ug4.dll -DestinationPath natives.zip
+  - cd ..\..\..
+  - mkdir -p VRL-UG\src\main\resources\eu\mihosoft\vrl\plugin\content\natives\windows\x64
+  - mv ug4\bin\Release\natives.zip VRL-UG\src\main\resources\eu\mihosoft\vrl\plugin\content\natives\windows\x64
+  - cd VRL-UG
+  - ./gradlew build
+  - cd %APPVEYOR_BUILD_FOLDER%
+  # VRL-UG.jar is now located in %APPVEYOR_BUILD_FOLDER%\VRL-UG\build\libs\VRL-UG.jar
+  
+  # build VRL-UG-API
+  - git clone --depth 1 https://github.com/NeuroBox3D/build_tools.git
+  - cd build_tools
+  - cd consoleApp
+  - mkdir -p .application\property-folder\plugins
+  - cp ..\..\VRL-UG\build\libs\VRL-UG.jar .application\property-folder\plugins
+  - call run.bat
+  - cd %APPVEYOR_BUILD_FOLDER%
+  # VRL-UG-API.jar is now located in %APPVEYOR_BUILD_FOLDER%\build_tools\consoleApp\.application\property-folder\plugin-updates
+
+  # build VRL
+  - git clone https://github.com/VRL-Studio/VRL
+  - cd VRL\VRL
+  - ant jar
+  - cd %APPVEYOR_BUILD_FOLDER%
+  # VRL.jar is now located in %APPVEYOR_BUILD_FOLDER%\VRL\VRL\dist
+  
+  # build VRL-UserData
+  - git clone https://github.com/VRL-Studio/VRL-UserData
+  - cd VRL-UserData
+  - mklink /h jars\VRL.jar ..\VRL\VRL\dist\VRL.jar
+  - mklink /h jars\VRL-UG.jar ..\VRL-UG\build\libs\VRL-UG.jar
+  - mklink /h jars\VRL-UG-API.jar ..\build_tools\consoleApp\.application\property-folder\plugin-updates\VRL-UG-API.jar
+  - ant jar
+  - cd %APPVEYOR_BUILD_FOLDER%
+  # VRL-UserData.jar is now located in %APPVEYOR_BUILD_FOLDER%\VRL-UserData\dist\VRL-UserData.jar
+
+  # build VRL-NeuroBox
+  - git clone https://github.com/NeuroBox3D/VRL-NeuroBox-Plugin.git
+  - cd VRL-NeuroBox-Plugin
+  - mkdir lib
+  - mklink /h lib\VRL-UG.jar ..\VRL-UG\build\libs\VRL-UG.jar
+  - mklink /h lib\VRL-UG-API.jar ..\build_tools\consoleApp\.application\property-folder\plugin-updates\VRL-UG-API.jar
+  - mklink /h lib\VRL-UserData.jar ..\VRL-UserData\dist\VRL-UserData.jar
+  - ./gradlew build
+  - cd %APPVEYOR_BUILD_FOLDER%
+  # VRL-NeuroBox-Plugin.jar is now located in %APPVEYOR_BUILD_FOLDER%\VRL-NeuroBox-Plugin\build\libs\VRL-UG.jar
+
+artifacts:
+  - path: VRL-UG\build\libs\VRL-UG.jar
+    name: UGjar
+  - path: build_tools\consoleApp\.application\property-folder\plugin-updates\VRL-UG-API.jar
+    name: UGAPIjar
+  - path: VRL-UserData\dist\VRL-UserData.jar
+    name: UserDatajar
+  - path: VRL-NeuroBox-Plugin\build\libs\VRL-NeuroBox-Plugin.jar
+    name: NeuroBoxjar
+
+deploy:
+  description: 'test'
+  provider: GitHub
+  auth_token:
+    secure: Ki/Fm5IhIlggsa+Yu/cuZGBu0gmfhmY50/dgFDkSbFGg/xx1UyI1fhXduHmlsOqH
+  draft: true
+  prerelease: true
+  artifact: UGjar, UGAPIjar, UserDatajar, NeuroBoxjar
+
+
