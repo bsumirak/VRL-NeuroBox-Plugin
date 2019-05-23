@@ -51,7 +51,7 @@ install:
   - if not exist .ughub ..\ughub\ughub init
   - ..\ughub\ughub addsource quadruped ug4quad:ug4-packages
   - ..\ughub\ughub addsource neurobox https://github.com/NeuroBox3D/neurobox-packages.git
-  - ..\ughub\ughub install ugcore ConvectionDiffusion MembranePotentialMapping Neurolucida NeuronalTopologyImporter ProMesh SkinLayerGenerator cable_neuron calciumDynamics neuro_collection
+  - ..\ughub\ughub install ugcore ConvectionDiffusion MembranePotentialMapping Neurolucida ProMesh SkinLayerGenerator cable_neuron neuro_collection
 
 build_script:
   # build TetGen
@@ -74,8 +74,8 @@ build_script:
     -DLAPACK=OFF -DBLAS=OFF -DDIM=ALL -DCPU=1 -DCOMPILE_INFO=ON -DEMBEDDED_PLUGINS=ON -DSTATIC_BUILD=OFF
     -DTETGEN=%APPVEYOR_BUILD_FOLDER%\tetgen143
     -DConvectionDiffusion=%ON% -DProMesh=%ON%
-    -DMembranePotentialMapping=%ON% -DNeuronalTopologyImporter=%ON%
-    -Dcable_neuron=%ON% -DcalciumDynamics=%ON% -Dneuro_collection=%ON% -Wno-dev
+    -DMembranePotentialMapping=%ON% -DNeuronalTopologyImporter=%OFF%
+    -Dcable_neuron=%ON% -DcalciumDynamics=%OFF% -Dneuro_collection=%ON% -Wno-dev
   - MSBuild .\ug4.sln /property:Configuration=Release /property:Platform=x64 /m
   - cd %APPVEYOR_BUILD_FOLDER%
   # ug4.dll is now located in %APPVEYOR_BUILD_FOLDER%\ug4\bin\Release
