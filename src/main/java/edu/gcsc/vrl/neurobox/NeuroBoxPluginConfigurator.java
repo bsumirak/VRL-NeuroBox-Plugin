@@ -28,12 +28,14 @@ import edu.gcsc.vrl.neurobox.membrane_transport.SERCA_VRL;
 import edu.gcsc.vrl.neurobox.membrane_transport.PMCA_VRL;
 import edu.gcsc.vrl.neurobox.membrane_transport.Leak_VRL;
 import edu.gcsc.vrl.neurobox.membrane_transport.RyR_VRL;
+import edu.gcsc.vrl.neurobox.membrane_transport.RyRinstat_VRL;
 import edu.gcsc.vrl.neurobox.membrane_transport.cable.Hodgkin_Huxley_Nernst;
 import edu.gcsc.vrl.neurobox.membrane_transport.MCU_VRL;
 import edu.gcsc.vrl.neurobox.membrane_transport.MNCX_VRL;
 import edu.gcsc.vrl.neurobox.types.IMembraneTransport_ArrayType;
 import edu.gcsc.vrl.neurobox.types.IMembraneTransport_Type;
 import eu.mihosoft.vrl.io.IOUtil;
+import eu.mihosoft.vrl.io.VersionInfo;
 import eu.mihosoft.vrl.system.InitPluginAPI;
 import eu.mihosoft.vrl.system.PluginAPI;
 import eu.mihosoft.vrl.system.PluginDependency;
@@ -81,10 +83,10 @@ public class NeuroBoxPluginConfigurator extends VPluginConfigurator
                          "www.g-csc.de", "Proprietary", "Proprietary");
 
         // specify dependencies
-        addDependency(new PluginDependency("VRL", "0.4.2", "0.4.3"));
-        addDependency(new PluginDependency("VRL-UG", "0.2", "0.2"));
-        addDependency(new PluginDependency("VRL-UG-API", "0.2", "0.2"));
-        addDependency(new PluginDependency("VRL-UserData", "0.2", "0.2"));
+        addDependency(new PluginDependency("VRL", "0.4.2", "0.4.x"));
+        addDependency(new PluginDependency("VRL-UG", "0.2", VersionInfo.UNDEFINED));
+        addDependency(new PluginDependency("VRL-UG-API", "0.2", VersionInfo.UNDEFINED));
+        addDependency(new PluginDependency("VRL-UserData", "0.2", VersionInfo.UNDEFINED));
     }
     
     @Override
@@ -140,6 +142,7 @@ public class NeuroBoxPluginConfigurator extends VPluginConfigurator
 
             vapi.addComponent(IP3R_VRL.class);
             vapi.addComponent(RyR_VRL.class);
+            vapi.addComponent(RyRinstat_VRL.class);
             vapi.addComponent(SERCA_VRL.class);
             vapi.addComponent(Leak_VRL.class);
             vapi.addComponent(PMCA_VRL.class);
